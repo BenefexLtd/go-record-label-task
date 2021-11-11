@@ -33,7 +33,7 @@ include as part of your solution.
     * Once you are up-and-running, you can access the management console at http://localhost:15672 using the default
     username _guest_ and password _guest_.
 
-* Your solution should prioritise maintainability, as well as robustness.
+* Your solution should prioritise maintainability as well as robustness, and utilise a queue/message broker for communications.
 
 * You must provide your complete solution as a zip file, including the `.git` subfolder, and return it privately via email
 (please do not publish your solution publicly!)

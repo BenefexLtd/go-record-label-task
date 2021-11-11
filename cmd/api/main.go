@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,15 +11,42 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
+type queueClient struct {
+	conn *amqp.Connection
+}
+
+func (q *queueClient) Send(ctx context.Context, r Release) {
+	// TODO: implement me
+
+	log.Printf(
+		"New release! %s: %s by %s - we should probably let some people know about it...",
+		r.ReleaseDate.Format("02 Jan 2006"),
+		r.Title,
+		r.Artist,
+	)
+}
+
+func newConnectedQueueClient() (*queueClient, error) {
+	// TODO: implement me
+	return &queueClient{}, nil
+}
+
 func main() {
-	if err := run(); err != nil {
+	if err := run(context.Background()); err != nil {
 		log.Fatalf("run failed: %s", err.Error())
 	}
 }
 
-func run() error {
+func run(ctx context.Context) error {
+	q, err := newConnectedQueueClient()
+	if err != nil {
+		return fmt.Errorf("error connecting queue client: %w", err)
+	}
+
 	errC := make(chan error)
 	sigC := make(chan os.Signal)
 	relC := make(chan Release)
@@ -35,12 +63,7 @@ func run() error {
 	for {
 		select {
 		case rel := <-relC:
-			log.Printf(
-				"New release! %s: %s by %s - we should probably let some people know about it...",
-				rel.ReleaseDate.Format("02 Jan 2006"),
-				rel.Title,
-				rel.Artist,
-			)
+			q.Send(ctx, rel)
 		case err := <-errC:
 			return fmt.Errorf("error received: %w", err)
 		case <-sigC:
