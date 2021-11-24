@@ -39,6 +39,9 @@ include as part of your solution.
 (please do not publish your solution publicly!)
     * Please use your commits to demonstrate incremental progress, as you would whilst working on tickets as part of a sprint.
 
+* Please also take some time to document your approach and reasoning in any way you see fit. This will help us to
+understand a bit more around your thought processes, before we meet with you again to chat in more detail.
+
 ## Getting Started
 
 From project root:
