@@ -1,0 +1,43 @@
+name: BackUp GitHubv2
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 19 * * 5"
+jobs:
+  Perform-BackUp:
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Authenticate to Google Cloud
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/778061599421/locations/global/workloadIdentityPools/github-action-repo/providers/github-action'
+          service_account: 'github-actions-repo@benefex-assets.iam.gserviceaccount.com'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Zip files
+        env: 
+          REPO_NAME: $(basename ${{ GITHUB.REPOSITORY }})
+        run: |
+          echo ${{ env.REPO_NAME }}
+          zip -r ${{ env.REPO_NAME  }}.zip .
+
+      - name: Upload to Google Cloud Storage
+        env: 
+          REPO_NAME: $(basename ${{ GITHUB.REPOSITORY }})
+        run: |
+          gsutil cp ${{ env.REPO_NAME  }}.zip gs://benefex-github-backup/
+      
