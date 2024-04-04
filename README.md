@@ -1,56 +1,58 @@
 # go-record-label-task 🎧 💿
 
-## Dependencies
+## Example Dependencies
 
-* Go 1.17+
-* Docker / Docker Compose
+- Go 1.22+
+- Docker / Docker Compose
 
 ## Task
 
 ### Brief
 
-BenFX Records handles its release schedule via an API with a single `POST /releases` endpoint.
+BenFX Records manages its release schedule via an API with a single `POST /releases` endpoint.
 
-This endpoint consumes an array of Release objects and hands each one off for further processing.
+This endpoint consumes an array of Release objects and delegates each one for further processing.
 
-A successful request is acknowledged with a `202 Accepted` response header, and receipt of each Release is currently added
-to the system log.
+Upon successful processing, a `202 Accepted` response header is issued, and the receipt of each Release is currently logged within the system.
 
-Your task is to build out additional components to handle the following:
+Your task is to expand the existing components to handle the following:
 
-* Issue communications to the artist's fanbase to inform them of each upcoming release.
+- Communicate release information to the artist's fanbase to notify them of each upcoming release.
+- Initiate orders to distribution warehouses for physical fulfillment of the release media.
 
-* Issue orders to the distribution warehouses for physical fulfilment of the release media.
+Notes:
+- You have the flexibility to extend the existing codebase or begin from scratch.
+- You may opt to utilize the provided pubsub emulator or choose an alternative message broker for communication.
+- When documenting, feel free to remove content from this readme.
+- You're not limited to a single service.
 
 ### Requirements & Constraints
 
-* BenFX Records is currently out to tender for the suppliers who will handle communications and distribution, so we need
-to make sure we can easily swap these integrations in once these decisions have been made.
-    * It is likely that CD and Vinyl orders will be dealt with by separate suppliers in order to achieve optimal rates. 
+- BenFX Records is currently out to tender for the suppliers who will handle communications and distribution,
+  so we need to make sure we can easily swap these integrations in once these decisions have been made.
+    - It is likely that CD and Vinyl orders will be dealt with by separate suppliers in order to achieve optimal rates. 
 
-* A Docker Compose file has been supplied which provides a RabbitMQ environment that you may wish to optionally
-include as part of your solution.
-    * Once you are up-and-running, you can access the management console at http://localhost:15672 using the default
-    username _guest_ and password _guest_.
+- The supplied Docker Compose file initializes the example API code and the pubsub emulator, which you may optionally
+  incorporate into your solution.
+  - Additional information on the PubSub emulator can be found here: [PubSub Emulator Documentation](https://cloud.google.com/pubsub/docs/emulator)
 
-* Your solution should prioritise maintainability as well as robustness, and utilise a queue/message broker for communications.
+- Your solution should prioritize maintainability and robustness, utilizing a queue/message broker for communications.
 
-* You must provide your complete solution as a zip file, including the `.git` subfolder, and return it privately via email
-(please do not publish your solution publicly!)
-    * Please use your commits to demonstrate incremental progress, as you would whilst working on tickets as part of a sprint.
+- Provide your complete solution as a zip file, and include the output of git log to show your progress along the way.
+  - Use your commits to showcase incremental progress, similar to working on tickets within a sprint.
+  - To write the git log to a file, run: `git --no-pager log > log.txt`
 
-* Please also take some time to document your approach and reasoning in any way you see fit. This will help us to
-understand a bit more around your thought processes, before we meet with you again to chat in more detail.
+- Take time to document your approach and reasoning as you see fit. This aids in understanding your thought
+  processes before a detailed discussion.
 
 ## Getting Started
 
-From project root:
+From the project root:
 
 ```
 docker-compose up
 ```
 
-This will spin up two local containers: one to run the API, and the other to provide a RabbitMQ environment with
-basic/minimal configuration.
+This command will initialize two local containers: one to run the API and the other to provide a pubsub emulator with basic/minimal configuration.
 
-You can issue requests to `POST http://localhost:8080/releases` by running the provided script (`./curl.sh`)
+You can issue requests to `POST http://localhost:8080/releases` by running the provided script (`./curl.sh`).
