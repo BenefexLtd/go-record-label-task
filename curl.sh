@@ -8,8 +8,8 @@ curl -v http://localhost:8080/releases --data '
     "genre": "Pop",
     "releaseDate": "2021-02-09T00:00:00Z",
     "distribution": [
-      {"type": "cd", "qty": 50000},
-      {"type": "vinyl", "qty": 10000}
+      {"type": "cd", "quantity": 50000},
+      {"type": "vinyl", "quantity": 10000}
     ]
   },
   {
@@ -18,7 +18,7 @@ curl -v http://localhost:8080/releases --data '
     "genre": "EDM",
     "releaseDate": "1970-01-01T00:00:00Z",
     "distribution": [
-      {"type": "vinyl", "qty": 50}
+      {"type": "vinyl", "quantity": 50}
     ]
   },
   {

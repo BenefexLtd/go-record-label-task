@@ -3,8 +3,8 @@ package domain
 import "time"
 
 type ReleaseDistribution struct {
-	Type string `json:"type"`
-	Qty  int64  `json:"qty"`
+	Type     string `json:"type"`
+	Quantity int64  `json:"quantity"`
 }
 
 type Release struct {
